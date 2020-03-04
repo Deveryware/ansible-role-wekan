@@ -70,6 +70,23 @@
     environment:
       HTTPS_PROXY: "{{ wekan_proxy | default(omit) }}"
       METEOR_WAREHOUSE_DIR: "{{ wekan_meteor_warehouse }}/"
+    async: 5400 # Wait 90 minutes for the build to complete
+    poll: 0
+    register: __wekan_async
+
+  - name: Wait for Wekan to build
+    async_status:
+      jid: "{{ __wekan_async.ansible_job_id }}"
+    become_user: "{{ wekan_user }}"
+    register: __wekan_async_result
+    until: __wekan_async_result.finished
+    retries: 900
+
+  - name: Clean up async task
+    async_status:
+      jid: "{{ __wekan_async.ansible_job_id }}"
+      mode: cleanup
+    become_user: "{{ wekan_user }}"
 
   - name: Ensure cfs_access-point.js is patched
     copy:
@@ -87,9 +104,9 @@
     environment:
       HTTPS_PROXY: "{{ wekan_proxy | default(omit) }}"
 
-  #- name: Remove the build directory
-  #  file:
-  #    path: "{{ wekan_build_directory }}"
-  #    state: absent
+  - name: Remove the build directory
+    file:
+      path: "{{ wekan_build_directory }}"
+      state: absent
 
   when: is_wekan_installed.rc != 0

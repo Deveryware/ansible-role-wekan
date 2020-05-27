@@ -7,4 +7,13 @@ wekan_version: "v3.79"
 __wekan_meteor_warehouse: "{{ wekan_meteor_warehouse }}"
 __wekan_run_directory: "{{ wekan_run_directory | mandatory }}"
 __wekan_src_directory: "{{ wekan_src_directory | mandatory }}"
+__wekan_url: "{{ wekan_url | mandatory }}"
+__wekan_mongo_url: "{{ wekan_mongo_url | mandatory }}"
 #wekan_proxy: unset by default
+
+wekan_options:
+  - "INTERNAL_LOG_LEVEL=info"
+  - "LDAP_AUTHENTIFICATION=false"
+  - "MONGO_URL='{{ __wekan_mongo_url }}'"
+  - "PORT=8080"
+  - "ROOT_URL='{{ __wekan_url }}'"

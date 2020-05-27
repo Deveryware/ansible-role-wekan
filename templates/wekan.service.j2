@@ -1,0 +1,21 @@
+[Unit]
+Description=Wekan
+After=network.target syslog.target mongod.service
+
+[Service]
+ExecStart=/usr/bin/node /srv/wekan/bundle/main.js
+WorkingDirectory=/srv/wekan
+Type=simple
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=wekan
+User=wekan
+Group=wekan
+{% for option in wekan_options %}
+Environment={{ option }}
+{% endfor -%}
+
+[Install]
+WantedBy=multi-user.target

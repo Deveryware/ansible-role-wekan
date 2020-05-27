@@ -81,6 +81,7 @@
     register: __wekan_async_result
     until: __wekan_async_result.finished
     retries: 900
+    notify: Restart wekan
 
   - name: Clean up async task
     async_status:
@@ -110,3 +111,15 @@
       state: absent
 
   when: is_wekan_installed.rc != 0
+
+- name: Ensure systemd service is installed
+  template:
+    src: templates/wekan.service.j2
+    dest: /etc/systemd/system/wekan.service
+  notify: Reload systemd
+
+- name: Ensure wekan is enabled on start up
+  service:
+    name: wekan
+    enabled: yes
+    state: started

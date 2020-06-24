@@ -121,7 +121,9 @@
   template:
     src: templates/wekan.service.j2
     dest: /etc/systemd/system/wekan.service
-  notify: Reload systemd
+  notify:
+  - Reload systemd
+  - Restart wekan
 
 - name: Ensure wekan is enabled on start up
   service:

@@ -67,14 +67,19 @@
     environment:
       HTTPS_PROXY: "{{ wekan_proxy | default(omit) }}"
 
+  - name: Copy build script over
+    template:
+      src: build.sh.j2
+      dest: "{{ wekan_build_directory }}/build.sh"
+      mode: 0755
+      owner: "{{ wekan_user }}"
+
   - name: Build wekan
-    command:
-      cmd: "meteor build --directory {{ wekan_run_directory }}"
+    command: ./build.sh
+    args:
       chdir: "{{ wekan_build_directory }}"
     become_user: "{{ wekan_user }}"
     environment:
-      HTTPS_PROXY: "{{ wekan_proxy | default(omit) }}"
-      METEOR_WAREHOUSE_DIR: "{{ wekan_meteor_warehouse }}/"
     async: 5400 # Wait 90 minutes for the build to complete
     poll: 0
     register: __wekan_async
@@ -93,6 +98,11 @@
       jid: "{{ __wekan_async.ansible_job_id }}"
       mode: cleanup
     become_user: "{{ wekan_user }}"
+
+  - name: Remove build script
+    file:
+      path: "{{ wekan_build_directory }}/build.sh"
+      state: absent
 
   - name: Ensure cfs_access-point.js is patched
     copy:

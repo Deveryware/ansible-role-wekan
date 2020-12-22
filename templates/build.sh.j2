@@ -1,0 +1,5 @@
+#!/bin/sh
+
+export METEOR_WAREHOUSE_DIR="{{ wekan_meteor_warehouse }}/"
+export HTTPS_PROXY="{{ wekan_proxy | default(omit) }}"
+meteor build --directory "{{ wekan_run_directory }}"

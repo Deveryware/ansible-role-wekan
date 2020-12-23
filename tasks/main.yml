@@ -55,10 +55,10 @@
       owner: "{{ wekan_user }}"
       group: "{{ wekan_group }}"
 
-  - name: Clean up meteor package-metadata
-    file:
-      path: "{{ wekan_meteor_warehouse }}/package-metadata/"
-      state: absent
+  #- name: Clean up meteor package-metadata
+  #  file:
+  #    path: "{{ wekan_meteor_warehouse }}/package-metadata/"
+  #    state: absent
 
   - name: Ensure NPM build dependencies are installed
     npm:

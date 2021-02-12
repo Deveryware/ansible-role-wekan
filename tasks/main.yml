@@ -55,11 +55,6 @@
       owner: "{{ wekan_user }}"
       group: "{{ wekan_group }}"
 
-  #- name: Clean up meteor package-metadata.
-  #  file:
-  #    path: "{{ wekan_meteor_warehouse }}/package-metadata/"
-  #    state: absent
-
   - name: Ensure NPM build dependencies are installed.
     npm:
       path: "{{ wekan_build_directory }}"
@@ -79,25 +74,7 @@
     args:
       chdir: "{{ wekan_build_directory }}"
     become_user: "{{ wekan_user }}"
-    #async: 5400 # Wait 90 minutes for the build to complete
-    #poll: 0
-    #register: __wekan_async
     notify: Restart wekan
-
-  #- name: Wait for Wekan to build.
-  #  async_status:
-  #    jid: "{{ __wekan_async.ansible_job_id }}"
-  #  become_user: "{{ wekan_user }}"
-  #  register: __wekan_async_result
-  #  until: __wekan_async_result.finished
-  #  retries: 900
-  #  notify: Restart wekan
-
-  #- name: Clean up async task.
-  #  async_status:
-  #    jid: "{{ __wekan_async.ansible_job_id }}"
-  #    mode: cleanup
-  #  become_user: "{{ wekan_user }}"
 
   - name: Remove build script.
     file:

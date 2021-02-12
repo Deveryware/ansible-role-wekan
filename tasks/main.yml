@@ -24,7 +24,7 @@
     group: "{{ wekan_group }}"
 
 - name: Check if wekan is already installed.
-  command: "grep {{ wekan_version }} {{ wekan_run_directory }}/bundle/programs/server/app/app.js"
+  command: "grep {{ __wekan_version }} {{ __wekan_run_directory }}/bundle/programs/server/app/app.js"
   register: is_wekan_installed
   changed_when: false
   failed_when: false
@@ -41,7 +41,7 @@
   - name: Ensure git repository is up to date.
     git:
       repo: "{{ wekan_git_repository }}"
-      version: "{{ wekan_version }}"
+      version: "{{ __wekan_version }}"
       depth: 1
       force: yes
       dest: "{{ wekan_src_directory }}"
@@ -84,7 +84,7 @@
   - name: Ensure cfs_access-point.js is patched.
     copy:
       src: "{{ wekan_build_directory }}/fix-download-unicode/cfs_access-point.txt"
-      dest: "{{ wekan_run_directory }}/bundle/programs/server/packages/cfs_access-point.js"
+      dest: "{{ __wekan_run_directory }}/bundle/programs/server/packages/cfs_access-point.js"
       remote_src: yes
       owner: "{{ wekan_user }}"
       group: "{{ wekan_group }}"
@@ -92,7 +92,7 @@
 
   - name: Ensure NPM run time dependencies are installed.
     npm:
-      path: "{{ wekan_run_directory }}/bundle/programs/server/"
+      path: "{{ __wekan_run_directory }}/bundle/programs/server/"
     become_user: "{{ wekan_user }}"
     environment:
       HTTPS_PROXY: "{{ wekan_proxy | default(omit) }}"

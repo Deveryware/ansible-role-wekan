@@ -11,7 +11,7 @@
 
 - name: Ensure source directory is created.
   file:
-    path: "{{ __wekan_src_directory }}"
+    path: "{{ wekan_src_directory }}"
     state: directory
     owner: "{{ wekan_user }}"
     group: "{{ wekan_group }}"

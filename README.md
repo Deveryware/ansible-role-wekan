@@ -33,7 +33,7 @@ Additionnaly a reverse proxy such as nginx should be used to expose Wekan over h
 | `wekan_meteor_warehouse` | Path to Meteor warehouse   | mandatory |
 | `wekan_proxy`            | Proxy URL                  | `` |
 | `wekan_run_directory`    | Where to install wekan     | mandatory |
-| `wekan_src_directory`    | Where to host wekan source | mandatory |
+| `wekan_src_directory`    | Where to host wekan source | `/tmp/wekan-src` |
 | `wekan_user`             | Name of wekan system user  | `wekan` |
 | `wekan_version`          | Wekan release to install   | mandatory |
 | `wekan_options`          | List of wekan options      | See bellow |

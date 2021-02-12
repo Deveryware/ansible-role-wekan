@@ -3,8 +3,8 @@ wekan_build_directory: /tmp/wekan-build
 wekan_git_repository: https://github.com/wekan/wekan.git
 wekan_group: wekan
 wekan_user: wekan
-wekan_version: "v4.09"
-__wekan_meteor_warehouse: "{{ wekan_meteor_warehouse }}"
+__wekan_version: "{{ wekan_version | mandatory }}"
+__wekan_meteor_warehouse: "{{ wekan_meteor_warehouse | mandatory  }}"
 __wekan_run_directory: "{{ wekan_run_directory | mandatory }}"
 __wekan_src_directory: "{{ wekan_src_directory | mandatory }}"
 __wekan_url: "{{ wekan_url | mandatory }}"

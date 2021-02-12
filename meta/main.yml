@@ -1,0 +1,15 @@
+galaxy_info:
+  role_name: wekan
+  author: Tristan Le Guern
+  description: Ansible role for Wekan
+  company: Deveryware
+  license: ISC
+  min_ansible_version: 2.7
+  platforms:
+    - name: Debian
+      versions:
+        - buster
+  galaxy_tags:
+  - wekan
+  - kanban
+dependencies: []

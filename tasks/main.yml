@@ -3,42 +3,42 @@
   group:
     name: "{{ wekan_group }}"
 
-- name: Ensure wekan user is created
+- name: Ensure wekan user is created.
   user:
     name: "{{ wekan_user }}"
     group: "{{ wekan_group }}"
     shell: /bin/sh
 
-- name: Ensure source directory is created
+- name: Ensure source directory is created.
   file:
     path: "{{ __wekan_src_directory }}"
     state: directory
     owner: "{{ wekan_user }}"
     group: "{{ wekan_group }}"
 
-- name: Ensure run directory is created
+- name: Ensure run directory is created.
   file:
     path: "{{ __wekan_run_directory }}"
     state: directory
     owner: "{{ wekan_user }}"
     group: "{{ wekan_group }}"
 
-- name: Check if wekan is already installed
+- name: Check if wekan is already installed.
   command: "grep {{ wekan_version }} {{ wekan_run_directory }}/bundle/programs/server/app/app.js"
   register: is_wekan_installed
   changed_when: false
   failed_when: false
 
-- name: Update source code
+- name: Update source code.
   block:
-  - name: Create the build directory
+  - name: Create the build directory.
     file:
       path: "{{ wekan_build_directory }}"
       state: directory
       owner: "{{ wekan_user }}"
       group: "{{ wekan_group }}"
 
-  - name: Ensure git repository is up to date
+  - name: Ensure git repository is up to date.
     git:
       repo: "{{ wekan_git_repository }}"
       version: "{{ wekan_version }}"
@@ -47,7 +47,7 @@
       dest: "{{ wekan_src_directory }}"
     become_user: "{{ wekan_user }}"
 
-  - name: Ensure source and build directories are in sync
+  - name: Ensure source and build directories are in sync.
     copy:
       src: "{{ wekan_src_directory }}/"
       dest: "{{ wekan_build_directory }}"
@@ -55,26 +55,26 @@
       owner: "{{ wekan_user }}"
       group: "{{ wekan_group }}"
 
-  #- name: Clean up meteor package-metadata
+  #- name: Clean up meteor package-metadata.
   #  file:
   #    path: "{{ wekan_meteor_warehouse }}/package-metadata/"
   #    state: absent
 
-  - name: Ensure NPM build dependencies are installed
+  - name: Ensure NPM build dependencies are installed.
     npm:
       path: "{{ wekan_build_directory }}"
     become_user: "{{ wekan_user }}"
     environment:
       HTTPS_PROXY: "{{ wekan_proxy | default(omit) }}"
 
-  - name: Copy build script over
+  - name: Copy build script over.
     template:
       src: build.sh.j2
       dest: "{{ wekan_build_directory }}/build.sh"
       mode: 0755
       owner: "{{ wekan_user }}"
 
-  - name: Build wekan
+  - name: Build wekan.
     command: ./build.sh
     args:
       chdir: "{{ wekan_build_directory }}"
@@ -84,7 +84,7 @@
     #register: __wekan_async
     notify: Restart wekan
 
-  #- name: Wait for Wekan to build
+  #- name: Wait for Wekan to build.
   #  async_status:
   #    jid: "{{ __wekan_async.ansible_job_id }}"
   #  become_user: "{{ wekan_user }}"
@@ -93,18 +93,18 @@
   #  retries: 900
   #  notify: Restart wekan
 
-  #- name: Clean up async task
+  #- name: Clean up async task.
   #  async_status:
   #    jid: "{{ __wekan_async.ansible_job_id }}"
   #    mode: cleanup
   #  become_user: "{{ wekan_user }}"
 
-  - name: Remove build script
+  - name: Remove build script.
     file:
       path: "{{ wekan_build_directory }}/build.sh"
       state: absent
 
-  - name: Ensure cfs_access-point.js is patched
+  - name: Ensure cfs_access-point.js is patched.
     copy:
       src: "{{ wekan_build_directory }}/fix-download-unicode/cfs_access-point.txt"
       dest: "{{ wekan_run_directory }}/bundle/programs/server/packages/cfs_access-point.js"
@@ -113,21 +113,21 @@
       group: "{{ wekan_group }}"
       mode: 0644
 
-  - name: Ensure NPM run time dependencies are installed
+  - name: Ensure NPM run time dependencies are installed.
     npm:
       path: "{{ wekan_run_directory }}/bundle/programs/server/"
     become_user: "{{ wekan_user }}"
     environment:
       HTTPS_PROXY: "{{ wekan_proxy | default(omit) }}"
 
-  - name: Remove the build directory
+  - name: Remove the build directory.
     file:
       path: "{{ wekan_build_directory }}"
       state: absent
 
   when: is_wekan_installed.rc != 0
 
-- name: Ensure systemd service is installed
+- name: Ensure systemd service is installed.
   template:
     src: templates/wekan.service.j2
     dest: /etc/systemd/system/wekan.service
@@ -135,7 +135,7 @@
   - Reload systemd
   - Restart wekan
 
-- name: Ensure wekan is enabled on start up
+- name: Ensure wekan is enabled on start up.
   service:
     name: wekan
     enabled: yes

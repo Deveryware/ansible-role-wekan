@@ -90,6 +90,21 @@
       group: "{{ wekan_group }}"
       mode: 0644
 
+  - name: Find phantomjs-prebuilt in the dependencies
+    find:
+      paths: "{{ __wekan_run_directory }}/bundle/programs/server/"
+      file_type: directory
+      patterns: '*phantomjs*'
+      hidden: yes
+      recurse: yes
+    register: __wekan_phantomjs
+
+  - name: Ensure obsolete phantomjs-prebuilt is not present anywhere
+    file:
+      path: "{{ item.path }}"
+      state: absent
+    loop: "{{ __wekan_phantomjs.files }}"
+
   - name: Ensure NPM run time dependencies are installed.
     npm:
       path: "{{ __wekan_run_directory }}/bundle/programs/server/"

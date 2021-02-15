@@ -1,5 +1,6 @@
 ---
 wekan_build_directory: /tmp/wekan-build
+wekan_force_install: no
 wekan_git_repository: https://github.com/wekan/wekan.git
 wekan_group: wekan
 wekan_src_directory: /tmp/wekan-src

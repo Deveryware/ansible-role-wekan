@@ -117,7 +117,7 @@
       path: "{{ wekan_build_directory }}"
       state: absent
 
-  when: is_wekan_installed.rc != 0
+  when: "is_wekan_installed.rc != 0 or wekan_force_install"
 
 - name: Ensure systemd service is installed.
   template:

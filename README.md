@@ -28,6 +28,7 @@ Additionnaly a reverse proxy such as nginx should be used to expose Wekan over h
 | Variable                 | Description | Default |
 |--------------------------|-------------|---------|
 | `wekan_build_directory`  | Where to build wekan       | `/tmp/wekan-build` |
+| `wekan_force_install`    | Force wekan installation   | `no` |
 | `wekan_git_repository`   | Git repository URL         | `https://github.com/wekan/wekan.git` |
 | `wekan_group`            | Name of wekan system group | `wekan` |
 | `wekan_meteor_warehouse` | Path to Meteor warehouse   | mandatory |

@@ -111,6 +111,7 @@
   notify:
   - Reload systemd
   - Restart wekan
+  diff: no # Do not leak mongodb or LDAP passwords
 
 - name: Ensure wekan is enabled on start up.
   service:

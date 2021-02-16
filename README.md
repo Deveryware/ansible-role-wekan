@@ -107,7 +107,7 @@ LDAP_UTF8_NAMES_SLUGIFY=true
 
 ## Dependencies
 
-An ansible role dedicated to the installation of the JavaScript framework [Meteor](https://www.meteor.com).
+An ansible role dedicated to the installation of the JavaScript framework [Meteor](https://www.meteor.com) such as [Deveryware/ansible-role-meteor](https://github.com/Deveryware/ansible-role-meteor).
 
 An ansible role dedicated to the configuration of MongoDB such as [UnderGreen/
 ansible-role-mongodb](https://github.com/UnderGreen/ansible-role-mongodb)

@@ -32,7 +32,7 @@ Additionnaly a reverse proxy such as nginx should be used to expose Wekan over h
 | `wekan_git_repository`   | Git repository URL         | `https://github.com/wekan/wekan.git` |
 | `wekan_group`            | Name of wekan system group | `wekan` |
 | `wekan_meteor_warehouse` | Path to Meteor warehouse   | mandatory |
-| `wekan_proxy`            | Proxy URL                  | `` |
+| `wekan_proxy`            | Proxy URL                  | See bellow |
 | `wekan_run_directory`    | Where to install wekan     | mandatory |
 | `wekan_src_directory`    | Where to host wekan source | `/tmp/wekan-src` |
 | `wekan_user`             | Name of wekan system user  | `wekan` |
@@ -40,7 +40,25 @@ Additionnaly a reverse proxy such as nginx should be used to expose Wekan over h
 | `wekan_options`          | List of wekan options      | See bellow |
 | `wekan_mongo_url`        | A mongodb:// URL           | mandatory |
 
-Note: `wekan_proxy` is only used during build time for fetching NPM and Meteor dependencies.
+### `wekan_proxy`
+
+The variable `wekan_proxy` is only used during build time for fetching NPM and Meteor dependencies.
+
+It is an URL pointing to a HTTP proxy such as Squid.
+Here is a list of domains used by Meteor and NPM:
+
+- activity.meteor.com
+- codeload.github.com
+- github.com
+- github-com.s3.amazonaws.com
+- github-production-release-asset-2e65be.s3.amazonaws.com
+- github-releases.githubusercontent.com
+- nodejs.org
+- packages.meteor.com
+- registry.npmjs.org
+- warehouse.meteor.com
+
+If you are running into issues while building Wekan behind a proxy it is probably because a domain is missing from your list.
 
 ### `wekan_options`
 
